@@ -20,22 +20,25 @@ export function addlist(name) {
     삭제
   </button>
 </li>`;
+  // 카운트 업데이트
+  updateCount();
 
   //수정 기능 추가
-
   let editButton = document.querySelector("#edit" + id);
-  editButton.addEventListener("click", function () {
+  editButton.addEventListener("click", function (e) {
+    // console.log(e);
     // Display the prompt when the button is clicked
-    const userInput = prompt("수정할 매뉴명을 입력해주세요");
-    editInnerText(id, userInput);
+    let userInput = prompt("수정할 매뉴명을 입력해주세요");
+    if (userInput) editInnerText(id, userInput);
   });
 
   //삭제 기능 추가
   let deleteButton = document.querySelector("#delete" + id);
-  deleteButton.addEventListener("click", function () {
+  deleteButton.addEventListener("click", function (e) {
     // Display the prompt when the button is clicked
-    const userConfirm = confirm("정말 삭제하시겠습니까?");
+    let userConfirm = confirm("정말 삭제하시겠습니까?");
     if (userConfirm) document.querySelector("#" + id).remove();
+    updateCount();
   });
 }
 
@@ -62,4 +65,12 @@ const uniqueId = () => {
 // 텍스트 수정
 function editInnerText(id, userInput) {
   document.querySelector("#label" + id).innerHTML = userInput;
+}
+
+function countList() {
+  return document.getElementById("espresso-menu-list").childElementCount;
+}
+
+function updateCount() {
+  document.querySelector(".menu-count").innerText = "총 " + countList() + "개";
 }
