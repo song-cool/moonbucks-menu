@@ -1,9 +1,31 @@
+let list = document.getElementById("espresso-menu-list");
+let form = document.querySelector("#espresso-menu-form");
+
+// 폼 제출
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  if (form.espressoMenuName.value) {
+    addlist(form.espressoMenuName.value);
+    form.espressoMenuName.value = "";
+  }
+});
+
+const updateCount = () => {
+  document.querySelector(
+    ".menu-count"
+  ).innerText = `총 ${list.childElementCount}개`;
+};
+
+// edit label
+const editListLabel = (id, userInput) => {
+  document.querySelector("#label" + id).innerHTML = userInput;
+};
+
 // 리스트 생성
 export function addlist(name) {
   let id = uniqueId();
-  document.getElementById(
-    "espresso-menu-list"
-  ).innerHTML += `<li class="menu-list-item d-flex items-center py-2" id="${id}">
+  let nextListItem = `<li class="menu-list-item d-flex items-center py-2" id="${id}">
   <span class="w-100 pl-2 menu-name" id="label${id}">${name}</span>
   <button
     type="button"
@@ -20,7 +42,10 @@ export function addlist(name) {
     삭제
   </button>
 </li>`;
-  // 카운트 업데이트
+
+  //DOM에 추가
+  list.appendChild(createElementFromHTML(nextListItem));
+
   updateCount();
 
   //수정 기능 추가
@@ -29,7 +54,7 @@ export function addlist(name) {
     // console.log(e);
     // Display the prompt when the button is clicked
     let userInput = prompt("수정할 매뉴명을 입력해주세요");
-    if (userInput) editInnerText(id, userInput);
+    if (userInput) editListLabel(id, userInput);
   });
 
   //삭제 기능 추가
@@ -42,35 +67,19 @@ export function addlist(name) {
   });
 }
 
-// submit 함수
-document.querySelector("#espresso-menu-form").addEventListener(
-  "submit",
-  function (event) {
-    event.preventDefault();
+// ---------- Utils ----------
 
-    if (this.espressoMenuName.value) {
-      addlist(this.espressoMenuName.value);
-      this.espressoMenuName.value = "";
-    }
-  },
-  false
-);
-
+// gen unique ID
 const uniqueId = () => {
   const dateString = Date.now().toString(36);
   const randomness = Math.random().toString(36).substr(2);
   return dateString + randomness;
 };
 
-// 텍스트 수정
-function editInnerText(id, userInput) {
-  document.querySelector("#label" + id).innerHTML = userInput;
-}
+// html text를 html node로 만들어줌
+const createElementFromHTML = (htmlString) => {
+  var div = document.createElement("div");
+  div.innerHTML = htmlString.trim();
 
-function countList() {
-  return document.getElementById("espresso-menu-list").childElementCount;
-}
-
-function updateCount() {
-  document.querySelector(".menu-count").innerText = "총 " + countList() + "개";
-}
+  return div.firstChild;
+};
