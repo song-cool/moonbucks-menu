@@ -17,69 +17,48 @@ const updateCount = () => {
   ).innerText = `총 ${list.childElementCount}개`;
 };
 
-// edit label
-const editListLabel = (id, userInput) => {
-  document.querySelector("#label" + id).innerHTML = userInput;
-};
-
 // 리스트 생성
 export function addlist(name) {
-  let id = uniqueId();
-  let nextListItem = `<li class="menu-list-item d-flex items-center py-2" id="${id}">
-  <span class="w-100 pl-2 menu-name" id="label${id}">${name}</span>
+  list.innerHTML += `<li class="menu-list-item d-flex items-center py-2" >
+  <span class="w-100 pl-2 menu-name" >${name}</span>
   <button
     type="button"
     class="bg-gray-50 text-gray-500 text-sm mr-1 menu-edit-button"
-    id="edit${id}"
+    name="menu-edit-button"
     >
     수정
   </button>
   <button
     type="button"
     class="bg-gray-50 text-gray-500 text-sm menu-remove-button"
-    id="delete${id}"
+    name="menu-remove-button"
   >
     삭제
   </button>
 </li>`;
 
-  //DOM에 추가
-  list.appendChild(createElementFromHTML(nextListItem));
-
   updateCount();
-
-  //수정 기능 추가
-  let editButton = document.querySelector("#edit" + id);
-  editButton.addEventListener("click", function (e) {
-    // console.log(e);
-    // Display the prompt when the button is clicked
-    let userInput = prompt("수정할 매뉴명을 입력해주세요");
-    if (userInput) editListLabel(id, userInput);
-  });
-
-  //삭제 기능 추가
-  let deleteButton = document.querySelector("#delete" + id);
-  deleteButton.addEventListener("click", function (e) {
-    // Display the prompt when the button is clicked
-    let userConfirm = confirm("정말 삭제하시겠습니까?");
-    if (userConfirm) document.querySelector("#" + id).remove();
-    updateCount();
-  });
 }
 
-// ---------- Utils ----------
-
-// gen unique ID
-const uniqueId = () => {
-  const dateString = Date.now().toString(36);
-  const randomness = Math.random().toString(36).substr(2);
-  return dateString + randomness;
-};
-
-// html text를 html node로 만들어줌
-const createElementFromHTML = (htmlString) => {
-  var div = document.createElement("div");
-  div.innerHTML = htmlString.trim();
-
-  return div.firstChild;
-};
+// 이벤트 추가
+list.addEventListener(
+  "click",
+  function (e) {
+    // 수정 시
+    if (e.target.name == "menu-edit-button") {
+      let userInput = prompt("수정할 매뉴명을 입력해주세요");
+      if (userInput) {
+        e.target.closest(".menu-name").innerHTML = userInput;
+      }
+    }
+    // 삭제 시
+    if (e.target.name == "menu-remove-button") {
+      let userConfirm = confirm("정말 삭제하시겠습니까?");
+      if (userConfirm) {
+        e.target.closest(".menu-list-item").remove();
+        updateCount();
+      }
+    }
+  },
+  true
+);
