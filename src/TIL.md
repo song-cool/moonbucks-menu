@@ -49,3 +49,10 @@
 
 1. 버블링과 캡쳐링을 사용하는 형태로 리펙토링
 2. PR 작성 후 다음 part 진행.
+
+### 10월 29일 (30분 진행)
+
+- 캡쳐링을 통해 e.target 선택된 요소를 가져올 수 있다.
+  https://ko.javascript.info/bubbling-and-capturing
+- element.closest("quary") 를 통해 상위 element를 가져올 수 있다.
+- name 을 추가해서 원하는 요소를 id값이 아니더라도 편하게 불러올 수 있다.
