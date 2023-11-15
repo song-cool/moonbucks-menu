@@ -53,12 +53,11 @@
 - [x] 총 메뉴 갯수를 count하여 상단에 보여준다.
 - [x] 추가되는 메뉴의 아래 마크업은 `<ul id="espresso-menu-list" class="mt-3 pl-0"></ul>` 안에 삽입해야 한다.
 
-- [ ] 이슈. 동적 이벤트 생성의 경우 중복으로 이벤트가 쌓이지 않음
+- [x] 이슈. 동적 이벤트 생성의 경우 중복으로 이벤트가 쌓이지 않음
       왜 이런 이슈가 생길까?
       아마.. 변수화 했던 editButton과 deleteButton에 이벤트가 쌓여서가 아닐까?
 
-1. 리스트로 이벤트 관리하기.(n번째 요소를 건들자!)
-2. 클래스로 이벤트 관리하기.
+-> html 추가방식에서의 이슈였다.
 
 ```js
 <li class="menu-list-item d-flex items-center py-2">
